@@ -79,7 +79,7 @@ interface PrefetchPluginOptions {
   concurrent?: number;
 }
 
-export const PrefetchPlugin = ({
+export const VitePluginPrefetchModule = ({
   concurrent = 3,
 }: PrefetchPluginOptions): PluginOption => {
   let viteConfig: ResolvedConfig;

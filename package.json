@@ -1,5 +1,5 @@
 {
-  "name": "vite-plugin-prefetch",
+  "name": "vite-plugin-prefetch-module",
   "version": "1.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -7,7 +7,7 @@
     "/dist"
   ],
   "repository": {
-    "url": "https://github.com/songzhj/vite-plugin-prefetch.git"
+    "url": "https://github.com/songzhj/vite-plugin-prefetch-module.git"
   },
   "scripts": {
     "build": "tsc",
