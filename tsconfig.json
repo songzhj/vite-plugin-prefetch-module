@@ -2,14 +2,16 @@
   "compilerOptions": {
     "target": "ESNext",
     "lib": ["DOM", "ESNext"],
-    "module": "ESNext",
+    "module": "commonjs",
     "moduleResolution": "Node",
     "declaration": true,
     "declarationDir": "./dist",
     "outDir": "./dist",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "strict": true
+    "strict": true,
+    "removeComments": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": ["src/*"]
 }
