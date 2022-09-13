@@ -1,0 +1,25 @@
+{
+  "name": "vite-plugin-prefetch",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
+  "repository": {
+    "url": "https://github.com/songzhj/vite-plugin-prefetch.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jsdom": "^20.0.0",
+    "@types/node": "16",
+    "jsdom": "^20.0.0",
+    "prettier": "^2.7.1",
+    "typescript": "4.6.3",
+    "vite": "^3.0.4"
+  }
+}
