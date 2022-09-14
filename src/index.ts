@@ -2,7 +2,14 @@ import { JSDOM } from 'jsdom';
 import { OutputAsset, OutputBundle } from 'rollup';
 import { createFilter, PluginOption, ResolvedConfig } from 'vite';
 
-const PrefetchCode = (list: string[], baseUrl: string, concurrent: number) => `
+const PrefetchCode = (
+  list: string[],
+  baseUrl: string,
+  {
+    concurrent,
+    fallbackDelayTime,
+  }: { concurrent: number; fallbackDelayTime: number },
+) => `
 (function () {
   function bf(urls, lmt) {
     let c = 0;
@@ -34,7 +41,7 @@ const PrefetchCode = (list: string[], baseUrl: string, concurrent: number) => `
   }
 
   const idleCallback =
-    window.requestIdleCallback || ((c) => setTimeout(c, 1500));
+    window.requestIdleCallback || ((c) => setTimeout(c, ${fallbackDelayTime}));
 
   idleCallback(() => {
     bf(JSON.parse('${JSON.stringify(list)}'), ${concurrent});
@@ -77,11 +84,14 @@ const getCSSChunkFileNames = (bundle: OutputBundle): string[] => {
 
 interface PrefetchPluginOptions {
   concurrent?: number;
+
+  fallbackDelayTime?: number;
 }
 
 export const VitePluginPrefetchModule = ({
   concurrent = 3,
-}: PrefetchPluginOptions): PluginOption => {
+  fallbackDelayTime = 1500,
+}: PrefetchPluginOptions = {}): PluginOption => {
   let viteConfig: ResolvedConfig;
 
   return {
@@ -106,7 +116,7 @@ export const VitePluginPrefetchModule = ({
         const modules: string[] = [];
 
         const getRelatedCssFileNames = (jsFileName: string) => {
-          const jsBaseName = jsFileName.match(/assets\/(\S+)\.\S+\.js/)?.[1];
+          const jsBaseName = jsFileName.match(/assets\/(\S+?)\.\S+\.js/)?.[1];
           if (!jsBaseName) {
             return [];
           }
@@ -138,7 +148,10 @@ export const VitePluginPrefetchModule = ({
 
         travelImportedChunks([...chunk.dynamicImports, ...chunk.imports]);
 
-        const code = PrefetchCode(modules, baseUrl, concurrent);
+        const code = PrefetchCode(modules, baseUrl, {
+          concurrent,
+          fallbackDelayTime,
+        });
         const script = dom.window.document.createElement('script');
         script.innerHTML = code;
         dom.window.document.body.appendChild(script);
