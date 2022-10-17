@@ -1,6 +1,7 @@
+import { createFilter } from '@rollup/pluginutils';
 import { JSDOM } from 'jsdom';
 import { OutputAsset, OutputBundle } from 'rollup';
-import { createFilter, PluginOption, ResolvedConfig } from 'vite';
+import { PluginOption, ResolvedConfig } from 'vite';
 
 const PrefetchCode = (
   list: string[],
